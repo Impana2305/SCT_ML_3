@@ -1,0 +1,16 @@
+# ─────────────────────────────────────────────────────────────
+# SkillCraft Technology | Task 03 – Cat vs Dog SVM
+# Requirements
+# Install: pip install -r requirements.txt
+# ─────────────────────────────────────────────────────────────
+
+numpy>=1.24.0
+Pillow>=9.4.0
+scikit-learn>=1.2.0
+matplotlib>=3.6.0
+seaborn>=0.12.0
+tqdm>=4.64.0
+
+# Optional: Jupyter / Colab environment
+# jupyter>=1.0.0
+# notebook>=6.5.0

@@ -1,0 +1,68 @@
+# ─────────────────────────────────────────────────────────────
+# .gitignore — SCT_ML_3 | Task 03: Cat vs Dog SVM
+# ─────────────────────────────────────────────────────────────
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual Environments ──────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# ── Jupyter Notebook Checkpoints ──────────────────────────────
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# ── Dataset (do not commit raw image data) ────────────────────
+data/
+PetImages/
+*.zip
+dogs-vs-cats/
+
+# ── Model Artifacts ───────────────────────────────────────────
+*.pkl
+*.joblib
+*.h5
+*.model
+
+# ── Generated Output Images ───────────────────────────────────
+confusion_matrix.png
+sample_predictions.png
+sample_images.png
+pixel_distribution.png
+pca_analysis.png
+class_distribution.png
+metrics_chart.png
+confidence_distribution.png
+new_image_prediction.png
+batch_predictions_*.png
+pca_variance.png
+
+# ── Kaggle Credentials (NEVER commit!) ────────────────────────
+kaggle.json
+
+# ── OS / IDE ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Logs & Misc ───────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
