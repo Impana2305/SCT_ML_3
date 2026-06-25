@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AI-powered Cat vs Dog image classifier using MobileNet. Upload any photo and instantly find out if it's a cat or dog — runs entirely in your browser." />
+    <meta name="keywords" content="cat dog classifier, AI image recognition, machine learning, tensorflow, mobilenet" />
+    <meta property="og:title" content="Cat vs Dog AI Classifier" />
+    <meta property="og:description" content="Upload a photo and let AI decide: Cat 🐱 or Dog 🐶? Runs 100% in your browser." />
+    <title>Cat vs Dog AI Classifier — SCT ML Task 03</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <!-- TensorFlow.js loaded from CDN to avoid Vite bundling issues -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
