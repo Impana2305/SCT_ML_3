@@ -13,6 +13,7 @@ import numpy as np
 # ── Image Processing ──────────────────────────────────────────
 from PIL import Image
 from tqdm import tqdm
+from skimage.feature import hog   # HOG feature extraction
 
 # ── Visualization ─────────────────────────────────────────────
 import matplotlib
@@ -23,7 +24,7 @@ import seaborn as sns
 
 # ── Machine Learning ──────────────────────────────────────────
 from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics import (
@@ -136,10 +137,30 @@ plt.close()
 print("📊 Saved → pixel_distribution.png")
 
 # ══════════════════════════════════════════════════════════════
-# SECTION 5 ▸ TRAIN-TEST SPLIT + SECTION 4 ▸ PCA
+# SECTION 4 ▸ HOG FEATURE EXTRACTION
+# ══════════════════════════════════════════════════════════════
+def extract_hog_features(images_flat, img_size=IMG_SIZE):
+    hog_features = []
+    for img in tqdm(images_flat, desc="  HOG extraction", unit="img"):
+        feat = hog(
+            img.reshape(img_size),
+            orientations=9,
+            pixels_per_cell=(8, 8),
+            cells_per_block=(2, 2),
+            block_norm='L2-Hys',
+        )
+        hog_features.append(feat)
+    return np.array(hog_features, dtype=np.float32)
+
+print("\n🔬 Extracting HOG features …")
+X_hog = extract_hog_features(X_normalized)
+print(f"[✔] HOG features: raw {X_normalized.shape[1]} px → {X_hog.shape[1]} HOG descriptors")
+
+# ══════════════════════════════════════════════════════════════
+# SECTION 5 ▸ TRAIN-TEST SPLIT + PCA
 # ══════════════════════════════════════════════════════════════
 X_train_raw, X_test_raw, y_train, y_test = train_test_split(
-    X_normalized, y_raw, test_size=0.2, random_state=RANDOM_STATE, stratify=y_raw
+    X_hog, y_raw, test_size=0.2, random_state=RANDOM_STATE, stratify=y_raw
 )
 print(f"\n✂️  Train-Test Split (80/20, stratified)")
 print(f"   Training : {len(X_train_raw):,} | Cats: {sum(y_train==0):,}  Dogs: {sum(y_train==1):,}")
@@ -150,7 +171,7 @@ X_train_scaled = scaler.fit_transform(X_train_raw)
 X_test_scaled  = scaler.transform(X_test_raw)
 print(f"\n[✔] StandardScaler applied")
 
-N_COMPONENTS = 100   # reduced for 500-image mini dataset
+N_COMPONENTS = 50   # reduced from 100 to prevent overfitting
 pca = PCA(n_components=N_COMPONENTS, random_state=RANDOM_STATE)
 X_train_pca = pca.fit_transform(X_train_scaled)
 X_test_pca  = pca.transform(X_test_scaled)
@@ -174,13 +195,29 @@ plt.close()
 print("📊 Saved → pca_analysis.png")
 
 # ══════════════════════════════════════════════════════════════
-# SECTION 6 ▸ TRAIN SVM
+# SECTION 6 ▸ TRAIN SVM (Tuned: C=1, gamma=auto)
 # ══════════════════════════════════════════════════════════════
-print("\n🤖 Training SVM model …  (Kernel: RBF | C=10 | gamma=scale)\n")
-svm_model = SVC(kernel="rbf", C=10, gamma="scale", probability=True, random_state=RANDOM_STATE)
+print("\n🤖 Training SVM model …  (Kernel: RBF | C=1 | gamma=auto)\n")
+svm_model = SVC(kernel="rbf", C=1, gamma="auto", probability=True, random_state=RANDOM_STATE)
 svm_model.fit(X_train_pca, y_train)
-print(f"✅ SVM training complete!")
+print(f"✅ SVM base model trained!")
 print(f"   Support vectors : Cat={svm_model.n_support_[0]}, Dog={svm_model.n_support_[1]}, Total={sum(svm_model.n_support_)}")
+
+# ── GridSearchCV for optimal hyperparameters ───────────────────
+print("\n🔍 Running GridSearchCV (5-fold CV) …")
+param_grid = {
+    'C'    : [0.1, 1, 5, 10],
+    'gamma': ['scale', 'auto', 0.001, 0.01],
+}
+grid_search = GridSearchCV(
+    SVC(kernel='rbf', probability=True, random_state=RANDOM_STATE),
+    param_grid, cv=5, scoring='accuracy', n_jobs=-1, verbose=0
+)
+grid_search.fit(X_train_pca, y_train)
+print(f"✅ GridSearchCV complete!")
+print(f"   Best params  : {grid_search.best_params_}")
+print(f"   Best CV acc  : {grid_search.best_score_*100:.2f}%")
+svm_model = grid_search.best_estimator_
 
 # ══════════════════════════════════════════════════════════════
 # SECTION 7 ▸ EVALUATION

@@ -2,7 +2,7 @@
 # .gitignore — SCT_ML_3 | Task 03: Cat vs Dog SVM
 # ─────────────────────────────────────────────────────────────
 
-# ── Python ────────────────────────────────────────────────────
+# ── Python & Jupyter ──────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
@@ -14,6 +14,8 @@ __pycache__/
 dist/
 build/
 .eggs/
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
 
 # ── Virtual Environments ──────────────────────────────────────
 .venv/
@@ -22,23 +24,34 @@ env/
 ENV/
 .env
 
-# ── Jupyter Notebook Checkpoints ──────────────────────────────
-.ipynb_checkpoints/
-*/.ipynb_checkpoints/*
-
-# ── Dataset (do not commit raw image data) ────────────────────
+# ── Dataset (Forces Antigravity to skip raw image folders) ────
+cats_set/
+dogs_set/
 data/
 PetImages/
-*.zip
 dogs-vs-cats/
+*.zip
+*.tar.gz
+*.rar
 
-# ── Model Artifacts ───────────────────────────────────────────
+# ── Loose Media Extensions (Stops the AI indexing crash) ─────
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.webp
+
+# ── Model Artifacts & Weights ─────────────────────────────────
 *.pkl
 *.joblib
 *.h5
 *.model
+*.pth
+*.onnx
 
-# ── Generated Output Images ───────────────────────────────────
+# ── Generated Output Evaluation Files ─────────────────────────
 confusion_matrix.png
 sample_predictions.png
 sample_images.png
@@ -51,18 +64,20 @@ new_image_prediction.png
 batch_predictions_*.png
 pca_variance.png
 
-# ── Kaggle Credentials (NEVER commit!) ────────────────────────
+# ── Kaggle Credentials ────────────────────────────────────────
 kaggle.json
 
-# ── OS / IDE ──────────────────────────────────────────────────
+# ── OS / IDE Configs ──────────────────────────────────────────
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 *.swp
 *.swo
+.antigravity/
+.gemini/
 
-# ── Logs & Misc ───────────────────────────────────────────────
+# ── Logs & Temporary Files ────────────────────────────────────
 *.log
 *.tmp
 *.bak
