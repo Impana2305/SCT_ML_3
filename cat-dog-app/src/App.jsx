@@ -22,14 +22,14 @@ function classify(preds) {
 }
 
 const METRICS = [
-  { label: 'Training Accuracy', value: '~75%' },
-  { label: 'Testing Accuracy',  value: '~95%' },
-  { label: 'Variance Retained', value: '~95%' },
-  { label: 'PCA Components',    value: '150'  },
+  { label: 'Training Accuracy', value: '99.69%' },
+  { label: 'Testing Accuracy',  value: '75.00%' },
+  { label: 'Variance Retained', value: '40.4%' },
+  { label: 'PCA Components',    value: '50'  },
 ]
 const STATS = [
-  { label: 'Training Images', value: '25K+' },
-  { label: 'SVM Accuracy',    value: '~75%' },
+  { label: 'Training Images', value: '10,000' },
+  { label: 'SVM Accuracy',    value: '75.00%' },
   { label: 'Server Latency',  value: '0ms'  },
 ]
 

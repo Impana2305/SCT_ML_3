@@ -52,7 +52,7 @@ print(f"   sklearn : {sklearn.__version__}")
 # ══════════════════════════════════════════════════════════════
 # SECTION 2 ▸ DATASET CONFIGURATION
 # ══════════════════════════════════════════════════════════════
-DATASET_PATH = r"D:\Cat vs Dog Datasets"
+DATASET_PATH = r"D:\kagglecatsanddogs\PetImages"
 CAT_FOLDER   = "cats_set"
 DOG_FOLDER   = "dogs_set"
 
@@ -203,21 +203,11 @@ svm_model.fit(X_train_pca, y_train)
 print(f"✅ SVM base model trained!")
 print(f"   Support vectors : Cat={svm_model.n_support_[0]}, Dog={svm_model.n_support_[1]}, Total={sum(svm_model.n_support_)}")
 
-# ── GridSearchCV for optimal hyperparameters ───────────────────
-print("\n🔍 Running GridSearchCV (5-fold CV) …")
-param_grid = {
-    'C'    : [0.1, 1, 5, 10],
-    'gamma': ['scale', 'auto', 0.001, 0.01],
-}
-grid_search = GridSearchCV(
-    SVC(kernel='rbf', probability=True, random_state=RANDOM_STATE),
-    param_grid, cv=5, scoring='accuracy', n_jobs=-1, verbose=0
-)
-grid_search.fit(X_train_pca, y_train)
-print(f"✅ GridSearchCV complete!")
-print(f"   Best params  : {grid_search.best_params_}")
-print(f"   Best CV acc  : {grid_search.best_score_*100:.2f}%")
-svm_model = grid_search.best_estimator_
+# ── Skip GridSearchCV for optimal hyperparameters ───────────────────
+print("\n🔍 Skipping GridSearchCV for 25k dataset ... using C=10, gamma=scale")
+svm_model = SVC(kernel='rbf', C=10, gamma='scale', probability=True, random_state=RANDOM_STATE)
+svm_model.fit(X_train_pca, y_train)
+print(f"✅ SVM trained on full dataset!")
 
 # ══════════════════════════════════════════════════════════════
 # SECTION 7 ▸ EVALUATION

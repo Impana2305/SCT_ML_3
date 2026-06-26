@@ -1,0 +1,42 @@
+--- CELL 20 OUTPUT ---
+==================================================
+  📈 MODEL PERFORMANCE SUMMARY
+==================================================
+  Training Accuracy : 99.69%
+  Testing  Accuracy : 75.00%
+==================================================
+
+📋 Classification Report:
+              precision    recall  f1-score   support
+
+         Cat       0.76      0.73      0.75      1000
+         Dog       0.74      0.77      0.75      1000
+
+    accuracy                           0.75      2000
+   macro avg       0.75      0.75      0.75      2000
+weighted avg       0.75      0.75      0.75      2000
+
+
+
+--- CELL 31 OUTPUT ---
+
+╔══════════════════════════════════════════════════════╗
+║  📦  SCT_ML_Task03 — Final Model Summary          ║
+╠══════════════════════════════════════════════════════╣
+║  Task           : Cat vs Dog Classification        ║
+║  Algorithm      : Support Vector Machine (SVM)     ║
+║  Kernel         : RBF (Radial Basis Function)      ║
+║  C              : 10                               ║
+║  Gamma          : scale                            ║
+╠══════════════════════════════════════════════════════╣
+║  Image Size     : 64×64 px (grayscale)            ║
+║  Raw Features   : 4,096 pixels per image           ║
+║  PCA Components : 50 (40.4% variance retained)   ║
+╠══════════════════════════════════════════════════════╣
+║  Total Images   : 9,999                             ║
+║  Training Set   : 7,999  (80%)                    ║
+║  Test Set       : 2,000   (20%)                    ║
+╠══════════════════════════════════════════════════════╣
+║  Train Accuracy : 99.69%                         ║
+║  Tes
+
