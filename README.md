@@ -40,13 +40,13 @@ Dataset Loading
      │
      ▼
 Image Preprocessing
-(Grayscale → Resize 64×64 → Flatten → Normalize /255)
+(Grayscale → Resize 64×64 → Normalize → HOG Feature Extraction)
      │
      ▼
 Train-Test Split  (80% / 20%, stratified)
      │
      ▼
-StandardScaler  →  PCA (150 components, ~95% variance)
+StandardScaler  →  PCA (50 components, ~40% variance)
      │
      ▼
 SVM Model Training  (RBF kernel, C=10)
@@ -80,10 +80,10 @@ Visualizations + Prediction on New Image
 |------|-----------|--------|
 | 1 | **Grayscale** | Remove color channels |
 | 2 | **Resize** to 64×64 | Uniform dimensions |
-| 3 | **Flatten** to 1D | 4,096-feature vector |
-| 4 | **Normalize** ÷255 | Pixel range `[0.0, 1.0]` |
+| 3 | **Normalize** ÷255 | Pixel range [0.0, 1.0] |
+| 4 | **HOG Extraction** | Captures edge directions |
 | 5 | **StandardScaler** | Zero-mean, unit-variance |
-| 6 | **PCA** (150 components) | ~95% variance, 4096→150 features |
+| 6 | **PCA** (50 components) | 40.4% variance retained |
 
 ---
 
@@ -105,10 +105,10 @@ SVC(
 
 | Metric | Value |
 |--------|-------|
-| Training Accuracy | ~85–90% |
-| Testing Accuracy | ~72–78% |
-| Feature Reduction | 4,096 → 150 (via PCA) |
-| Variance Retained | ~95% |
+| Training Accuracy | 99.69% |
+| Testing Accuracy | 75.00% |
+| PCA Components | 50 |
+| Variance Retained | 40.4% |
 
 > *Results vary with dataset size and random seed. Accuracy improves with more training images.*
 
@@ -123,7 +123,7 @@ SVC(
   ├── Cat/   (12,500 images)
   └── Dog/   (12,500 images)
   ```
-- **Used**: 2,000 images per class (configurable via `MAX_IMAGES`)
+- **Used**: 5,000 images per class (10,000 total) (configurable via `MAX_IMAGES`)
 
 ---
 
@@ -181,9 +181,8 @@ python SCT_ML_Task03_Cat_vs_Dog_SVM.py
 ## 🔗 Future Improvements
 
 - Use CNN (Convolutional Neural Networks) for significantly higher accuracy
-- Apply HOG (Histogram of Oriented Gradients) for better feature extraction
 - Implement data augmentation to handle class imbalance
-- Deploy as a web app using Flask or Streamlit
+- Build a web application to visualize results (Done! React/Vite dashboard deployed on Vercel)
 
 ---
 
